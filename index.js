@@ -18,9 +18,6 @@ const web3Eth = [];
 const web3Avax = [];
 
 const initWeb3 = () => {
-	const args = process.argv.slice(2);
-	if (!args.includes('eth') && !args.includes('avax')) return;
-
 	const apiKeys = getApiKeysFromEnv();
 	apiKeys.forEach((key) => {
 		web3Eth.push(new Web3(ETH_ENDPOINT + key));
@@ -48,12 +45,14 @@ const generateWallet = () => {
 const checkBalance = async (web3, address, privateKey) => {
 	try {
 		const balanceWei = await web3.eth.getBalance(address);
+		console.log('balanceWei:', balanceWei);
 
 		const balanceEther = web3.utils.fromWei(balanceWei, 'ether');
-		const string = `Address: ${address}, Saldo: ${balanceEther}, private key: ${privateKey}`;
+
+		const string = `Address: ${address}, Saldo: ${balanceEther}, private key: ${privateKey}, url: ${web3.currentProvider.clientUrl}`;
 		if (parseFloat(balanceEther) !== 0) {
 			sendTelegramMessage(string);
-			fs.appendFile('wallets.txt', string + '\n');
+			fs.appendFileSync('wallets.txt', string + '\n');
 			console.log(string);
 		}
 	} catch (error) {
@@ -73,10 +72,6 @@ const sendTelegramMessage = async (message) => {
 
 const main = async () => {
 	initWeb3();
-
-	const args = process.argv.slice(2);
-
-	console.log('args:', args);
 
 	const startTime = new Date();
 
@@ -116,4 +111,17 @@ const main = async () => {
 	}
 };
 
-main();
+const test = async () => {
+	initWeb3();
+	const address = '0xb4f69b74bb2d90d3ab131929960e4fc8cbe6f054';
+	const privateKey = '';
+
+	checkBalance(web3Eth[0], address, privateKey);
+	checkBalance(web3Bsc, address, privateKey);
+	checkBalance(web3Polygon, address, privateKey);
+	checkBalance(web3Avax[0], address, privateKey);
+	await new Promise((resolve) => setTimeout(resolve, 5000));
+};
+
+// main();
+test();
