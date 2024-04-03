@@ -18,6 +18,9 @@ const web3Eth = [];
 const web3Avax = [];
 
 const initWeb3 = () => {
+	const args = process.argv.slice(2);
+	if (!args.includes('eth') && !args.includes('avax')) return;
+
 	const apiKeys = getApiKeysFromEnv();
 	apiKeys.forEach((key) => {
 		web3Eth.push(new Web3(ETH_ENDPOINT + key));
@@ -71,14 +74,34 @@ const sendTelegramMessage = async (message) => {
 const main = async () => {
 	initWeb3();
 
+	const args = process.argv.slice(2);
+
+	console.log('args:', args);
+
 	const startTime = new Date();
 
 	for (let i = 0; true; i++) {
 		const { privateKey, address } = generateWallet();
-		checkBalance(web3Eth[i % web3Eth.length], address, privateKey);
-		checkBalance(web3Bsc, address, privateKey);
-		checkBalance(web3Polygon, address, privateKey);
-		checkBalance(web3Avax[(i + 1) % web3Avax.length], address, privateKey);
+
+		if (args.length > 0) {
+			if (args.includes('eth')) {
+				checkBalance(web3Eth[i % web3Eth.length], address, privateKey);
+			}
+			if (args.includes('bsc')) {
+				checkBalance(web3Bsc, address, privateKey);
+			}
+			if (args.includes('polygon')) {
+				checkBalance(web3Polygon, address, privateKey);
+			}
+			if (args.includes('avax')) {
+				checkBalance(web3Avax[(i + 1) % web3Avax.length], address, privateKey);
+			}
+		} else {
+			checkBalance(web3Eth[i % web3Eth.length], address, privateKey);
+			checkBalance(web3Bsc, address, privateKey);
+			checkBalance(web3Polygon, address, privateKey);
+			checkBalance(web3Avax[(i + 1) % web3Avax.length], address, privateKey);
+		}
 
 		const timeDiff = new Date() - startTime;
 		const seconds = timeDiff / 1000;
