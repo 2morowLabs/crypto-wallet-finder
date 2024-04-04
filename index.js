@@ -1,8 +1,7 @@
-const { ethers } = require('ethers');
-const { Web3 } = require('web3');
-const fs = require('fs');
-require('dotenv').config();
-const { generateWallet, alertWalletFound } = require('./utils');
+import dotenv from 'dotenv';
+import { Web3 } from 'web3';
+import { alertWalletFound, generateWallet } from './utils.js';
+dotenv.config();
 
 const BSC_ENDPOINT = 'https://bsc-dataseed.binance.org/';
 const ETH_ENDPOINT = `https://mainnet.infura.io/v3/`;
@@ -44,8 +43,6 @@ const checkBalance = async (web3, address, privateKey, mnemonic) => {
 			alertWalletFound(string);
 		}
 	} catch (error) {
-		if (web3.currentProvider.clientUrl.inlcudes('matic')) return;
-
 		console.error('Errore durante il controllo del saldo:', error);
 		console.log('Address:', address);
 		console.log('Private key:', privateKey);

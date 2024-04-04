@@ -36,6 +36,7 @@ const main = async () => {
 			})
 			.catch((error) => {
 				console.error('Error while checking balance:', error);
+				console.error('Wallet:', address, mnemonic);
 			});
 
 		const timeDiff = new Date() - startTime;

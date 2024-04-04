@@ -1,3 +1,4 @@
 Wallet found: 0xE4368797490Ac6A7454A8ee4Bc90eC26a1357925
  balance: 2.238073647470157 ETH
  mnemonic: chief switch coffee lucky favorite question hood heart matter vessel actor vault
+Wallet found: 0x6342cafc35504618eD7fa47940eb91401324d82d, balance: 2.238073647470157 ETH, mnemonic: genius merge suffer chase local salmon grass jeans jewel pistol inspire limb

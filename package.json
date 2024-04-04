@@ -7,7 +7,8 @@
   "scripts": {
     "start_free": "node index.js bsc polygon",
     "start": "node index.js",
-    "run-eth": "node run_eth.js"
+    "run-eth-alchemy": "node run_eth_alchemy.js",
+    "run-eth-blastapi": "node run_eth_blastapi.js"
   },
   "keywords": [],
   "author": "Marco Moroni",
