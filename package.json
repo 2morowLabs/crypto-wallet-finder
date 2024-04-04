@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start_free": "node index.js bsc polygon",
-    "start": "node index.js"
+    "start": "node index.js",
+    "run-eth": "node run_eth.js"
   },
   "keywords": [],
   "author": "Marco Moroni",
   "license": "ISC",
   "dependencies": {
+    "alchemy-sdk": "^3.2.1",
     "dotenv": "^16.4.5",
     "ethers": "^6.11.1",
     "web3": "^4.7.0"
