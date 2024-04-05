@@ -20,9 +20,10 @@ const initAlchemy = () => {
 
 const main = async () => {
 	initAlchemy();
-
+	let requestPerSecond;
 	let startTime = new Date();
 	let promises = [];
+
 	for (let i = 0; true; i++) {
 		const { privateKey, address, mnemonic } = generateWallet();
 		const promise = alchemys[i % alchemys.length].core
@@ -43,7 +44,7 @@ const main = async () => {
 		if (i % 20 === 0) {
 			const timeDiff = new Date() - startTime;
 			const seconds = timeDiff / 1000;
-			const requestPerSecond = i / seconds;
+			requestPerSecond = i / seconds;
 			if (requestPerSecond > 24.2) {
 				await new Promise((resolve) => setTimeout(resolve, 1000));
 			}
