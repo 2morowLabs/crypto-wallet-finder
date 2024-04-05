@@ -21,11 +21,11 @@ const initAlchemy = () => {
 const main = async () => {
 	initAlchemy();
 
-	const startTime = new Date();
-
+	let startTime = new Date();
+	let promises = [];
 	for (let i = 0; true; i++) {
 		const { privateKey, address, mnemonic } = generateWallet();
-		const balance = alchemys[i % alchemys.length].core
+		const promise = alchemys[i % alchemys.length].core
 			.getBalance(address, 'latest')
 			.then((balance) => {
 				const formattedBalace = balance / 10 ** 18;
@@ -38,14 +38,20 @@ const main = async () => {
 				console.error('Error while checking balance:', error);
 				console.error('Wallet:', address, mnemonic);
 			});
-
+		promises.push(promise);
 		const timeDiff = new Date() - startTime;
 		const seconds = timeDiff / 1000;
 		const requestPerSecond = i / seconds;
 		if (requestPerSecond > 24.2) {
-			await new Promise((resolve) => setTimeout(resolve, 1000));
+			await new Promise((resolve) => setTimeout(resolve, 100));
 		}
-		if (i % 100 === 0) console.log(new Date(), ' -> ', i, 'requestPerSecond: ', requestPerSecond);
+
+		if (i % 100 === 0) {
+			await Promise.all(promises);
+			console.log(new Date(), ' -> ', 'requestPerSecond: ', requestPerSecond);
+			i = 0;
+			startTime = new Date();
+		}
 	}
 };
 
