@@ -39,11 +39,14 @@ const main = async () => {
 				console.error('Wallet:', address, mnemonic);
 			});
 		promises.push(promise);
-		const timeDiff = new Date() - startTime;
-		const seconds = timeDiff / 1000;
-		const requestPerSecond = i / seconds;
-		if (requestPerSecond > 24.2) {
-			await new Promise((resolve) => setTimeout(resolve, 100));
+
+		if (i % 20 === 0) {
+			const timeDiff = new Date() - startTime;
+			const seconds = timeDiff / 1000;
+			const requestPerSecond = i / seconds;
+			if (requestPerSecond > 24.2) {
+				await new Promise((resolve) => setTimeout(resolve, 1000));
+			}
 		}
 
 		if (i % 100 === 0) {
