@@ -41,17 +41,18 @@ const main = async () => {
 			});
 		promises.push(promise);
 
-		if (i % 20 === 0) {
+		if (i % 5 === 0) {
 			const timeDiff = new Date() - startTime;
 			const seconds = timeDiff / 1000;
 			requestPerSecond = i / seconds;
-			if (requestPerSecond > 24.2) {
-				await new Promise((resolve) => setTimeout(resolve, 1000));
+			if (requestPerSecond > 30) {
+				await new Promise((resolve) => setTimeout(resolve, 200));
 			}
 		}
 
 		if (i % 100 === 0) {
 			await Promise.all(promises);
+			promises = [];
 			console.log(new Date(), ' -> ', 'requestPerSecond: ', requestPerSecond);
 			i = 0;
 			startTime = new Date();
