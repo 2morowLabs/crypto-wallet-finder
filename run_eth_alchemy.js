@@ -45,7 +45,7 @@ const main = async () => {
 			const timeDiff = new Date() - startTime;
 			const seconds = timeDiff / 1000;
 			requestPerSecond = i / seconds;
-			if (requestPerSecond > 30) {
+			if (requestPerSecond > 6 * alchemys.length) {
 				await new Promise((resolve) => setTimeout(resolve, 200));
 			}
 		}
